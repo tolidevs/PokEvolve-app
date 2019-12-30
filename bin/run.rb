@@ -1,6 +1,6 @@
 require "pry"
-require_relative '../config/environment'
+require_relative './config/environment'
 
-binding.pry
+# binding.pry
 
 puts "Fire types are the best starters"
