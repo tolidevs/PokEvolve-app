@@ -2,12 +2,10 @@ class User < ActiveRecord::Base
     has_many :pokemons
     has_many :pokemon_families, through: :pokemons
 
-    # def self.catch_pokemon(name)
+    def self.catch_pokemon(name)
+        PokemonFamily.find_pokemon_by_name(name)
         
-    #     Pokemon.new()
-    # end
+    end
 
-    # def find_pokemon_by_name(name)
-    #     PokemonFamily.find
-    # end
+    
 end
