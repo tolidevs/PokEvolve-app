@@ -1,4 +1,3 @@
-class Pokemon 
+class Pokemon < ActiveRecord::Base
 
-    puts "Hi"
 end
