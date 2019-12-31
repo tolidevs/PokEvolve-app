@@ -6,4 +6,8 @@ class Pokemon < ActiveRecord::Base
         self.find(poke_id).pokemon_name
     end
 
+    def my_candies_to_evolve
+        self.pokemon_family.candies_to_evolve
+    end
+
 end

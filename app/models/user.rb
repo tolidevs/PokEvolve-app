@@ -46,23 +46,26 @@ class User < ActiveRecord::Base
 
     def which_pokemons_can_i_evolve
         enough_candies = self.all_my_pokemon.select { |poke|
-            poke.pokemon_family.candies_to_evolve <= self.see_my_candies
+            poke.my_candies_to_evolve <= self.see_my_candies
         }
         pokemon_array = []
         enough_candies.map { |poke| 
             myEvolvePokemon = Hash.new
             myEvolvePokemon[:id] = poke.id
             myEvolvePokemon[:name] = poke.pokemon_name
-            myEvolvePokemon[:candies_to_evolve] = poke.pokemon_family.candies_to_evolve 
+            myEvolvePokemon[:candies_to_evolve] = poke.my_candies_to_evolve 
             pokemon_array.push(myEvolvePokemon)
         }
         pokemon_array
     end
 
     def can_i_evolve_this_pokemon(poke_id)
-        if !self.all_my_pokemon.find { |poke| poke.id == poke_id }
+        pokemonName = Pokemon.find(poke_id).pokemon_name
+        if !self.all_my_pokemon.find { |poke| poke[:id] == poke_id }
             puts "Oh oh, it doesn't seem you have this pokemon."
-        elsif self.which_pokemons_can_i_evolve.find { |poke| poke.id == poke_id }
+        elsif !PokemonFamily.do_i_have_another_evolution(pokemonName)
+            puts "Sorry, this pokemon has reached its maximum evolutions!"
+        elsif self.which_pokemons_can_i_evolve.find { |poke| poke[:id] == poke_id }
             puts "Yes, you have enough candies to evolve your #{Pokemon.find_name_by_id(poke_id)}"
             true
         else
@@ -70,6 +73,29 @@ class User < ActiveRecord::Base
         end
     end
 
+    def evolve_and_change_name(poke_id)
+        pokemonToEvolve = Pokemon.find(poke_id)
+        if self.can_i_evolve_this_pokemon(poke_id)
+            evolutionNumber = PokemonFamily.find_evolution_level_by_name(pokemonToEvolve.pokemon_name)
+            if evolutionNumber == 1
+                pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_2
+                pokemonToEvolve.save
+                self.candies -= pokemonToEvolve.my_candies_to_evolve
+                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+            elsif evolutionNumber == 2
+                pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_3
+                pokemonToEvolve.save
+                self.candies -= pokemonToEvolve.my_candies_to_evolve
+                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+            elsif evolutionNumber == 3 
+                puts "Sorry, maximum evolutions achieved!!"
+            end
+            self.save
+        end
+                
+    end
+
+    
 
 
 

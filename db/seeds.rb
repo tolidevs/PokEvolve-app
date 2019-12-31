@@ -8,11 +8,13 @@
 # PokemonFamily.create(evolution_1:"Squirtle",evolution_2:"Wartortle",evolution_3:"Blastoise", candies_to_evolve: 15)
 # PokemonFamily.create(evolution_1:"Lapras",evolution_2:"Gigantamax Lapras", candies_to_evolve: 300)
 
-Pokemon.create(pokemon_name:"Ivysaur", pokemon_family_id: 1, user_id: 1)
-Pokemon.create(pokemon_name:"Charmander", pokemon_family_id: 3, user_id: 1)
-Pokemon.create(pokemon_name:"Lapras", pokemon_family_id: 9, user_id: 2)
-Pokemon.create(pokemon_name:"Charmeleon", pokemon_family_id: 7, user_id: 2)
-Pokemon.create(pokemon_name:"Lapras", pokemon_family_id: 9, user_id: 1)
+PokemonFamily.create(evolution_1:"Meowth",evolution_2:"Persian", candies_to_evolve: 10)
+
+# Pokemon.create(pokemon_name:"Ivysaur", pokemon_family_id: 1, user_id: 1)
+# Pokemon.create(pokemon_name:"Charmander", pokemon_family_id: 3, user_id: 1)
+# Pokemon.create(pokemon_name:"Lapras", pokemon_family_id: 9, user_id: 2)
+# Pokemon.create(pokemon_name:"Charmeleon", pokemon_family_id: 7, user_id: 2)
+# Pokemon.create(pokemon_name:"Lapras", pokemon_family_id: 9, user_id: 1)
 
 
 # Pokemon.create(pokemon_name:,pokemon_family_id:,user_id:)
