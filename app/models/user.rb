@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
     def catch_pokemon(name)
         if !PokemonFamily.find_pokemon_family_by_name(name)
-            puts "No such pokemon found!"
+            # puts "No such pokemon found!"   --------- Duplicate puts, a method in pokemon_familyalready puts Sorry, this Pokemon does not exist!
         else
             Pokemon.create(pokemon_name: name, pokemon_family_id: PokemonFamily.find_id_by_name(name), user_id: self.id)
             self.candies += 5
@@ -34,6 +34,8 @@ class User < ActiveRecord::Base
     # send to the professor!
     # in CLI add are you sure, this can't be undone!
     def delete_pokemon_by_id(id)
+        # if !Pokemon.find(id)                   --------------------------It returns an error message
+        #     puts "Sorry, I couldn't find this pokemon on my records"
         if Pokemon.find(id).user_id == self.id
             puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
             Pokemon.delete(id)
@@ -59,14 +61,14 @@ class User < ActiveRecord::Base
         pokemon_array
     end
 
-    def can_i_evolve_this_pokemon(poke_id)
+    def can_i_evolve_this_pokemon(poke_id) #----same problem here when user input an id that does not exist it gives an error message
         pokemonName = Pokemon.find(poke_id).pokemon_name
         if !self.all_my_pokemon.find { |poke| poke[:id] == poke_id }
             puts "Oh oh, it doesn't seem you have this pokemon."
         elsif !PokemonFamily.do_i_have_another_evolution(pokemonName)
             puts "Sorry, this pokemon has reached its maximum evolutions!"
         elsif self.which_pokemons_can_i_evolve.find { |poke| poke[:id] == poke_id }
-            puts "Yes, you have enough candies to evolve your #{Pokemon.find_name_by_id(poke_id)}"
+            puts "Cool, you have enough candies to evolve your #{Pokemon.find_name_by_id(poke_id)}"
             true
         else
             puts "Sorry you don't have enough candies to evolve #{Pokemon.find_name_by_id(poke_id)}"
