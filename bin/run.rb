@@ -1,8 +1,12 @@
 require "pry"
 require_relative '../config/environment'
 
-toli = User.find(2)
-renata = User.find(1)
+toli = User.find(14)
+renata = User.find(13)
+keemo = User.find(15)
+jo = User.find(16)
+
+
 
 binding.pry
 
