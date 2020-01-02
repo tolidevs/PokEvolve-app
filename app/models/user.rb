@@ -47,9 +47,11 @@ class User < ActiveRecord::Base
     end
 
     def which_pokemons_can_i_evolve
-        enough_candies = self.all_my_pokemon.select { |poke|
-            poke.my_candies_to_evolve <= self.see_my_candies
-        }
+        # enough_candies = self.all_my_pokemon.select { |poke|
+        #     poke.my_candies_to_evolve <= self.see_my_candies
+        # }
+        enough_candies = self.all_my_pokemon
+            binding.pry
         pokemon_array = []
         enough_candies.map { |poke| 
             myEvolvePokemon = Hash.new

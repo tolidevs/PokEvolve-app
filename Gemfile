@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 source "https://rubygems.org"
 
-# gem "bundler", '~> 1.16'
+
 gem "activerecord", '~> 6.0'
 gem "sinatra-activerecord"
 gem "sqlite3", '~> 1.4'
@@ -10,3 +10,5 @@ gem "require_all"
 gem "rake"
 gem "tty-prompt"
 gem "tty"
+gem "awesome_print"
+gem 'prettyprint', '~> 0.0.1'
