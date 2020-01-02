@@ -37,13 +37,17 @@ class User < ActiveRecord::Base
         pokemon_array
     end
 
-
+################-------------------alteration here
     def delete_pokemon_by_id(id)
-        if Pokemon.find(id).user_id == self.id
-            puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
-            Pokemon.delete(id)
-            self.candies += 1
-            self.save
+        if Pokemon.find_by(id: id)
+            if Pokemon.find_by(id: id).user_id == self.id #because now Pokemon is nil
+                puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
+                Pokemon.delete(id)
+                self.candies += 1
+                self.save
+            else
+                puts "Invalid Pokemon ID."
+            end
         else
             puts "Invalid Pokemon ID."
         end
@@ -66,16 +70,20 @@ class User < ActiveRecord::Base
 
     def can_i_evolve_this_pokemon(poke_id) #----same problem here when user input an id that does not exist it gives an error message
         pokemonName = Pokemon.find_name_by_id(poke_id)
-        if !self.all_my_pokemon.find { |poke| poke[:id] == poke_id }
-            puts "Oh oh, it doesn't seem you have this pokemon."
-        elsif !Pokemon.find(poke_id).do_i_have_another_evolution
-            puts "Sorry, this pokemon has reached its maximum evolutions!"
-        elsif self.which_pokemons_can_i_evolve.find { |poke| poke[:id] == poke_id }
-            puts "You have enough candies to evolve your #{Pokemon.find_name_by_id(poke_id)}"
-            true
-        else
-            puts "Sorry you don't have enough candies to evolve #{Pokemon.find_name_by_id(poke_id)}"
-        end
+        # if Pokemon.find_by(id:poke_id) -----------------solution did not work 
+            if !self.all_my_pokemon.find { |poke| poke[:id] == poke_id }
+                puts "Oh oh, it doesn't seem you have this pokemon."
+            elsif !Pokemon.find(poke_id).do_i_have_another_evolution
+                puts "Sorry, this pokemon has reached its maximum evolutions!"
+            elsif self.which_pokemons_can_i_evolve.find { |poke| poke[:id] == poke_id }
+                puts "You have enough candies to evolve your #{Pokemon.find_name_by_id(poke_id)}"
+                true
+            else
+                puts "Sorry you don't have enough candies to evolve #{Pokemon.find_name_by_id(poke_id)}"
+            end
+        # else
+        #     puts "Invalid Pokemon ID."
+        # end
     end
 
     def can_i_evolve_this_pokemon_true(poke_id)

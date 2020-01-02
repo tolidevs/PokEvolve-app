@@ -20,8 +20,7 @@ class CLI
     $prompt = TTY::Prompt.new
 
     def greet_user
-        puts "Hi trainer, please type the number of the option you'd like:"
-        choice = $prompt.select("Choose an option", ["Log In", "Create Account", "Exit"])
+        choice = $prompt.select("Hi trainer, please select the option you'd like:", ["Log In", "Create Account", "Exit"])
         if choice == "Log In"
             login
         elsif choice == "Create Account"
