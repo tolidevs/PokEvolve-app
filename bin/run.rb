@@ -3,6 +3,7 @@ require_relative '../config/environment'
 
 cli = CLI.new
 
+cli.opening_credits
 cli.greet_user
 
 # ruby ./cli.rb
