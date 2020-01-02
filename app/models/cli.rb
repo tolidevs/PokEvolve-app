@@ -196,19 +196,8 @@ class CLI
         end
     end
 
-    # def send_pokemon_to_professor
-    #     pokemon_id = $prompt.ask("Please enter Pokémon id => ").to_i
-    #     puts "You are about to send #{Pokemon.find_name_by_id(pokemon_id)} to the professor."
-    #     choice = $prompt.select("This can't be undone, are you sure?", ["Yes, send it to the professor", "No I'll hang on to it"])
-    #     if choice == "Yes, send it to the professor"
-    #         @@current_user.delete_pokemon_by_id(pokemon_id)
-    #         puts "Your Pokémon is now with the professor, he sent you a candy in return."
-    #         puts "You now have #{@@current_user.candies} candies."
-    #     end
-    #     sleep(0.2)
-    #     return_main_menu
-    # end
-    def all_my_pokes
+
+    def array_all_my_pokemon
         arr = Array.new
         @@current_user.all_my_pokemon.each {|e| arr.push(e.pokemon_name)}
         arr
@@ -216,21 +205,18 @@ class CLI
     
 
     def send_pokemon_to_professor
-        send_away = $prompt.select("Who would you like to send to the professor?", Array[all_my_pokes])
+        send_away = $prompt.select("Who would you like to send to the professor?", Array[array_all_my_pokemon])
         
         puts "You are about to send #{send_away} to the professor."
         choice = $prompt.select("This can't be undone, are you sure?", ["Yes, send it to the professor", "No I'll hang on to it"])
         if choice == "Yes, send it to the professor"
-            # @@current_user.delete_pokemon_by_id(pokemon_id)
+            @@current_user.delete_pokemon_by_name(send_away)
             puts "Your Pokémon is now with the professor, he sent you a candy in return."
             puts "You now have #{@@current_user.candies} candies."
         end
         sleep(0.2)
         return_main_menu
     end
-
-
-
 
 
     def exit

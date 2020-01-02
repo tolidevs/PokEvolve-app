@@ -49,6 +49,18 @@ class User < ActiveRecord::Base
         end
     end
 
+    def delete_pokemon_by_name(name)
+        poke = Pokemon.find_by(pokemon_name:name)
+        if Pokemon.find(poke.id).user_id == self.id
+            puts "#{name} sent to the professor!!"
+            Pokemon.delete(poke.id)
+            self.candies += 1
+            self.save
+        else
+            puts "Invalid Pokemon ID."
+        end
+    end
+
     def which_pokemons_can_i_evolve
         can_be_evolved = self.all_my_pokemon.select { |poke|
             poke.my_candies_to_evolve <= self.see_my_candies && poke.do_i_have_another_evolution
