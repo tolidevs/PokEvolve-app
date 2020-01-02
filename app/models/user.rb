@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
         end 
     end
 
+    def import_pokemon(poke_name)
+        poke_family = PokemonFamily.find_id_by_name(poke_name)
+        Pokemon.create(pokemon_name:poke_name, pokemon_family_id: poke_family, user_id: self.id)
+    end
+
     def see_my_candies
         self.candies
     end

@@ -22,4 +22,5 @@ class Pokemon < ActiveRecord::Base
         end
     end
 
+
 end
