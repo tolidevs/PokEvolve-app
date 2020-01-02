@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
         enough_candies = self.all_my_pokemon.select { |poke|
             poke.my_candies_to_evolve <= self.see_my_candies
         }
-        enough_candies = self.all_my_pokemon
+
             #  binding.pry
         pokemon_array = []
         enough_candies.map { |poke| 

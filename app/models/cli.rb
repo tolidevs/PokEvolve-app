@@ -93,12 +93,12 @@ class CLI #< ActiveRecord::Base
             catch_pokemon_name
             return_main_menu
         elsif choice == "2: See my Pokémon"
-            puts @@current_user.see_all_my_pokemon_with_id 
+            see_my_pokemon 
         elsif choice == "3: See how many candies I have"
              p "You have #{@@current_user.see_my_candies} candies."
              return_main_menu
         elsif choice == "4: See which Pokémon I can evolve"
-             p @@current_user.which_pokemons_can_i_evolve
+             puts @@current_user.which_pokemons_can_i_evolve
              return_main_menu
         elsif choice == "5: Can I evolve this Pokémon?"
              
@@ -111,7 +111,7 @@ class CLI #< ActiveRecord::Base
 
     def return_main_menu
         prompt = TTY::Prompt.new
-        choice = prompt.select("What would you like to don now?", ["Return to main menu", "exit"])
+        choice = prompt.select("What would you like to do now?", ["Return to main menu", "exit"])
         if choice == "Return to main menu"
             main_menu
         else
@@ -124,6 +124,26 @@ class CLI #< ActiveRecord::Base
         poke_name = prompt.ask("Please enter Pokémon name => ").capitalize
         @@current_user.catch_pokemon(poke_name)
         puts "Nice, you caught a #{poke_name}!"
+    end
+
+    def can_i_evolve_pokemon_id
+        prompt = TTY::Prompt.new
+        poke_id = prompt.ask("Please enter Pokémon id => ")
+        if @@current_user.can_i_evolve_this_pokemon(poke_id)
+            choice = prompt.select("What would you like to evolve this Pokémon now?", ["Hell yeah!", "Not right now"])
+            if choice = "Hell yeah!"
+                
+            else
+                main_menu
+            end
+        else
+            main_menu
+        end
+    end
+
+    def see_my_pokemon
+        @@current_user.see_all_my_pokemon_with_id.each { |e| puts "#{e[:id]}: #{e[:name]}" }
+        main_menu
     end
 
     def exit
