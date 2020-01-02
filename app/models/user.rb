@@ -1,3 +1,4 @@
+require 'pry'
 class User < ActiveRecord::Base
     has_many :pokemons
     has_many :pokemon_families, through: :pokemons
@@ -34,8 +35,7 @@ class User < ActiveRecord::Base
     # send to the professor!
     # in CLI add are you sure, this can't be undone!
     def delete_pokemon_by_id(id)
-        # if !Pokemon.find(id)                   --------------------------It returns an error message
-        #     puts "Sorry, I couldn't find this pokemon on my records"
+
         if Pokemon.find(id).user_id == self.id
             puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
             Pokemon.delete(id)
@@ -47,11 +47,11 @@ class User < ActiveRecord::Base
     end
 
     def which_pokemons_can_i_evolve
-        # enough_candies = self.all_my_pokemon.select { |poke|
-        #     poke.my_candies_to_evolve <= self.see_my_candies
-        # }
+        enough_candies = self.all_my_pokemon.select { |poke|
+            poke.my_candies_to_evolve <= self.see_my_candies
+        }
         enough_candies = self.all_my_pokemon
-            binding.pry
+            #  binding.pry
         pokemon_array = []
         enough_candies.map { |poke| 
             myEvolvePokemon = Hash.new

@@ -10,5 +10,3 @@ gem "require_all"
 gem "rake"
 gem "tty-prompt"
 gem "tty"
-gem "awesome_print"
-gem 'prettyprint', '~> 0.0.1'

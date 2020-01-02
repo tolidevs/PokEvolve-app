@@ -1,5 +1,5 @@
 require 'tty-prompt'
-class CLI < ActiveRecord::Base
+class CLI #< ActiveRecord::Base
 
     # $state = {
     #     "user" => " "
