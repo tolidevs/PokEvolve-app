@@ -39,15 +39,11 @@ class User < ActiveRecord::Base
 
 ################-------------------alteration here
     def delete_pokemon_by_id(id)
-        if Pokemon.find_by(id: id)
-            if Pokemon.find_by(id: id).user_id == self.id #because now Pokemon is nil
-                puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
-                Pokemon.delete(id)
-                self.candies += 1
-                self.save
-            else
-                puts "Invalid Pokemon ID."
-            end
+        if Pokemon.find_by(id:id) && Pokemon.find_by(id:id).user_id == self.id #because now Pokemon is nil
+            puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
+            Pokemon.delete(id)
+            self.candies += 1
+            self.save
         else
             puts "Invalid Pokemon ID."
         end
@@ -70,7 +66,7 @@ class User < ActiveRecord::Base
 
     def can_i_evolve_this_pokemon(poke_id) #----same problem here when user input an id that does not exist it gives an error message
         pokemonName = Pokemon.find_name_by_id(poke_id)
-        # if Pokemon.find_by(id:poke_id) -----------------solution did not work 
+        if Pokemon.find_by(id:poke_id).user_id == self.id && Pokemon.find_by(id:poke_id) # -----------------solution did not work, I also added to check if the pokemon it's from the user
             if !self.all_my_pokemon.find { |poke| poke[:id] == poke_id }
                 puts "Oh oh, it doesn't seem you have this pokemon."
             elsif !Pokemon.find(poke_id).do_i_have_another_evolution
@@ -81,9 +77,9 @@ class User < ActiveRecord::Base
             else
                 puts "Sorry you don't have enough candies to evolve #{Pokemon.find_name_by_id(poke_id)}"
             end
-        # else
-        #     puts "Invalid Pokemon ID."
-        # end
+        else
+            puts "Invalid Pokemon ID."
+        end
     end
 
     def can_i_evolve_this_pokemon_true(poke_id)
