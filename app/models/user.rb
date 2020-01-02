@@ -4,13 +4,18 @@ class User < ActiveRecord::Base
     has_many :pokemon_families, through: :pokemons
 
     def catch_pokemon(name)
-        if !PokemonFamily.find_pokemon_family_by_name(name)
-            # puts "No such pokemon found!"   --------- Duplicate puts, a method in pokemon_familyalready puts Sorry, this Pokemon does not exist!
-        else
+        if PokemonFamily.find_pokemon_family_by_name(name)
             Pokemon.create(pokemon_name: name, pokemon_family_id: PokemonFamily.find_id_by_name(name), user_id: self.id)
             self.candies += 5
             self.save
         end 
+    end
+
+    def import_pokemon(poke_name)
+        if PokemonFamily.find_pokemon_family_by_name(poke_name)
+            poke_family = PokemonFamily.find_id_by_name(poke_name)
+            Pokemon.create(pokemon_name:poke_name, pokemon_family_id: poke_family, user_id: self.id)
+        end
     end
 
     def see_my_candies
@@ -32,8 +37,7 @@ class User < ActiveRecord::Base
         pokemon_array
     end
 
-    # send to the professor!
-    # in CLI add are you sure, this can't be undone!
+
     def delete_pokemon_by_id(id)
         if Pokemon.find(id).user_id == self.id
             puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
@@ -58,8 +62,6 @@ class User < ActiveRecord::Base
             pokemon_array.push(myEvolvePokemon)
         }
         pokemon_array
-        # binding.pry
-        # 0
     end
 
     def can_i_evolve_this_pokemon(poke_id) #----same problem here when user input an id that does not exist it gives an error message

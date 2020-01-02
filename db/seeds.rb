@@ -1,22 +1,22 @@
-# # User.create(username:"",candies:)
+# User.create(username:"",candies:)
 
-# u1 = User.create(username:"Renata",candies:100)
-# u2 = User.create(username:"Toli",candies:101)
-# u3 = User.create(username:"Mariola",candies:5)
-# u4 = User.create(username:"Keemo",candies:201)
-# u5 = User.create(username:"Jo",candies:70)
-# u6 = User.create(username:"James",candies:26)
-# u7 = User.create(username:"Sara",candies:55)
-# u8 = User.create(username:"Tommy",candies:357)
-# u9 = User.create(username:"Santiago",candies:123)
-# u10 = User.create(username:"Javier",candies:11)
-# u11 = User.create(username:"Amir",candies:234)
-# u12 = User.create(username:"Mabel",candies:67)
-# u13 = User.create(username:"Tim",candies:96)
-# u14 = User.create(username:"Hannah",candies:23)
-# u15 = User.create(username:"John",candies:11)
-# u16 = User.create(username:"Emma",candies:0)
-# u17 = User.create(username:"Julia",candies:17)
+u1 = User.create(username:"Renata",candies:100)
+u2 = User.create(username:"Toli",candies:101)
+u3 = User.create(username:"Mariola",candies:5)
+u4 = User.create(username:"Keemo",candies:201)
+u5 = User.create(username:"Jo",candies:70)
+u6 = User.create(username:"James",candies:26)
+u7 = User.create(username:"Sara",candies:55)
+u8 = User.create(username:"Tommy",candies:357)
+u9 = User.create(username:"Santiago",candies:123)
+u10 = User.create(username:"Javier",candies:11)
+u11 = User.create(username:"Amir",candies:234)
+u12 = User.create(username:"Mabel",candies:67)
+u13 = User.create(username:"Tim",candies:96)
+u14 = User.create(username:"Hannah",candies:23)
+u15 = User.create(username:"John",candies:11)
+u16 = User.create(username:"Emma",candies:0)
+u17 = User.create(username:"Julia",candies:17)
 
 
 
@@ -69,56 +69,56 @@ PokemonFamily.create(evolution_1:"Unown", candies_to_evolve: 0)
 
 # Pokemon.create(pokemon_name:"")
 
-# # random
-# u1.catch_pokemon("Ivysaur")
-# u1.catch_pokemon("Pinsir")
-# u1.catch_pokemon("Magikarp")
-# u1.catch_pokemon("Aerodactyl")
-# u1.catch_pokemon("Munchlax")
-# u1.catch_pokemon("Meowth")
-# u1.catch_pokemon("Sandslash")
-# u1.catch_pokemon("Ryhorn")
-# u1.catch_pokemon("Rhyperior")
-# u1.catch_pokemon("Chansey")
-# u1.catch_pokemon("Blissey")
-# u1.catch_pokemon("Krabby")
-# u1.catch_pokemon("Mareep")
+# random
+u1.catch_pokemon("Ivysaur")
+u1.catch_pokemon("Pinsir")
+u1.catch_pokemon("Magikarp")
+u1.catch_pokemon("Aerodactyl")
+u1.catch_pokemon("Munchlax")
+u1.catch_pokemon("Meowth")
+u1.catch_pokemon("Sandslash")
+u1.catch_pokemon("Ryhorn")
+u1.catch_pokemon("Rhyperior")
+u1.catch_pokemon("Chansey")
+u1.catch_pokemon("Blissey")
+u1.catch_pokemon("Krabby")
+u1.catch_pokemon("Mareep")
 
-# # random
-# u2.catch_pokemon("Pichu")
-# u2.catch_pokemon("Pikachu")
-# u2.catch_pokemon("Raichu")
-# u2.catch_pokemon("Tauros")
-# u2.catch_pokemon("Onix")
-# u2.catch_pokemon("Wheezing")
-# u2.catch_pokemon("Weedle")
-# u2.catch_pokemon("Crocanaw")
+# random
+u2.catch_pokemon("Pichu")
+u2.catch_pokemon("Pikachu")
+u2.catch_pokemon("Raichu")
+u2.catch_pokemon("Tauros")
+u2.catch_pokemon("Onix")
+u2.catch_pokemon("Wheezing")
+u2.catch_pokemon("Weedle")
+u2.catch_pokemon("Crocanaw")
 
-# # doesn't have enough candies to evolve any pokemon
-# u3.catch_pokemon("Snorlax")
+# doesn't have enough candies to evolve any pokemon
+u3.catch_pokemon("Snorlax")
 
-# # has enough candies to evolve all of their pokemon
-# u4.catch_pokemon("Pidgey")
-# u4.catch_pokemon("Pidgey")
-# u4.catch_pokemon("Pidgey")
-# u4.catch_pokemon("Pidgey")
-# u4.catch_pokemon("Pidgey")
+# has enough candies to evolve all of their pokemon
+u4.catch_pokemon("Pidgey")
+u4.catch_pokemon("Pidgey")
+u4.catch_pokemon("Pidgey")
+u4.catch_pokemon("Pidgey")
+u4.catch_pokemon("Pidgey")
 
-# # only has enough candies to evolve one if their pokemon
-# u6.catch_pokemon("Chansey")
-# u6.catch_pokemon("Magikarp")
-# u6.catch_pokemon("Ryhorn")
-# u6.catch_pokemon("Totodile")
+# only has enough candies to evolve one if their pokemon
+u6.catch_pokemon("Chansey")
+u6.catch_pokemon("Magikarp")
+u6.catch_pokemon("Ryhorn")
+u6.catch_pokemon("Totodile")
 
-# # Has no pokes that can be evolved as all maxed out
-# u6.catch_pokemon("Aerodactyl")
-# u6.catch_pokemon("Unown")
-# u6.catch_pokemon("Venusaur")
-# u6.catch_pokemon("Raticate")
+# Has no pokes that can be evolved as all maxed out
+u6.catch_pokemon("Aerodactyl")
+u6.catch_pokemon("Unown")
+u6.catch_pokemon("Venusaur")
+u6.catch_pokemon("Raticate")
 
-# # Only one can be evolved
-# u7.catch_pokemon("Vulpix")
-# u7.catch_pokemon("Unown")
+# Only one can be evolved
+u7.catch_pokemon("Vulpix")
+u7.catch_pokemon("Unown")
 
 
 
