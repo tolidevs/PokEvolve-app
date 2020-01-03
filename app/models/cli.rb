@@ -33,48 +33,57 @@ class CLI
         if choice == "Log In"
             login
         elsif choice == "Create Account"
-            check_username
+            check_username_available
         else
             exit
         end
     end
 
+    # abstract out check username valid
+    def check_username
+        @response = $prompt.ask("Please enter a username => ").capitalize
+        User.find_by(username: @response)
+    end
 
+    # use check_username to check validity
+    # if it is valid, commence login,
+    # otherwise ask again.
     def login
-        response = $prompt.ask("Please enter a username => ").capitalize
-        user = User.all.find { |user| user.username == response }
+        user = check_username
         if user
             @current_user = user
             puts "Hi #{@current_user.username}! Welcome back trainer!"
             main_menu
-        else   
+        else 
             choice = $prompt.select("That username doesn't exist, would you like to create an account?", ["Yes", "No, return to start"])
             if choice == "Yes"
-                check_username
+                check_username_available
             else
                 greet_user
             end
         end
     end
 
-    def check_username
-        @response = $prompt.ask("Please enter a username => ").capitalize
-        user = User.all.find { |user| user.username == @response }
-        if user
+    def check_username_available
+        @user = check_username
+        if @user
             option = $prompt.select("Sorry, that username is already taken!",["1: Try a different username","2: Take me to Login", "3: Exit"])
             if option == "1: Try a different username"
-                create_new_user
+                sleep(0.1)
+                check_username_available
             elsif option == "2: Take me to Login"
+                sleep(0.1)
                 login
             else
                 exit
             end
         else
-            create_new_user
+            set_up_account
         end
     end
 
-    def create_new_user
+    def set_up_account
+        puts "Setting up account:"
         @current_user = User.new(username:@response)
         candy_set = $prompt.ask("How many candies do you have?") do |q|
                 q.validate(/^-?[0-9]+$/, "Invalid input, please type a number")
@@ -86,6 +95,7 @@ class CLI
             import_existing_pokemon
         end
         @current_user.save
+        sleep(0.1)
         main_menu
     end
 
@@ -102,7 +112,7 @@ class CLI
             puts "Try again!"
             import_existing_pokemon
         end
-        sleep(0.5)
+        sleep(0.2)
         main_menu
     end
 
