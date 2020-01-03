@@ -73,11 +73,11 @@ class CLI
             puts "|                                     In a while Totodile                                     |"
             puts " ---------------------------------------------------------------------------------------------"
             sleep(1.5)
+            opening_credits
+            greet_user
         else
             main_menu
         end
-        opening_credits
-        greet_user
     end
 
     def check_username_available
@@ -111,7 +111,7 @@ class CLI
         if import_choice == "Yes"
             import_existing_pokemon
         end
-        sleep(0.1)
+        sleep(0.2)
         main_menu
     end
 
@@ -125,11 +125,11 @@ class CLI
                 import_existing_pokemon
             end
         else
-            puts "Try again!"
-            import_existing_pokemon
+            import_choice = $prompt.select("Try again?", ["Yes","No, return to main menu"])
+            if import_choice == "Yes"
+                import_existing_pokemon
+            end
         end
-        sleep(0.2)
-        main_menu
     end
 
     def main_menu
@@ -143,7 +143,7 @@ class CLI
              p "You have #{@current_user.see_my_candies} candies."
              sleep(1)
              return_main_menu
-        elsif choice == "4: See which Pokémon I can evolve" #####thi one we are going to keep
+        elsif choice == "4: See which Pokémon I can evolve" 
             see_wich_pokemon_can_i_evolve
         elsif choice == "5: Send a Pokémon to the Professor"
             send_pokemon_to_professor
@@ -168,6 +168,7 @@ class CLI
         if PokemonFamily.find_pokemon_family_by_name(poke_name)
             @current_user.catch_pokemon(poke_name)
             puts "Nice, you caught a #{poke_name}!"
+            puts "You now have #{@current_user.candies} candies."
         else
             puts "Try again!"
             catch_pokemon_name
@@ -186,8 +187,6 @@ class CLI
                 @current_user.evolve_and_change_name_by_name(poke_evol)
                 puts "You still have #{@current_user.candies} candies left!"
             end    
-        # sleep(0.2)
-        # return_main_menu
     end
 
     # def evolve_pokemon_with_id
@@ -221,7 +220,7 @@ class CLI
                     can_i_evolve_pokemon_by_name
                 end
         else
-            puts "Oh no, it seems you don't have any Poémon to evolve, try catching them."
+            puts "Oh no, it seems you don't have any Pokémon that you can evolve right now, try catching some."
         end
         sleep(0.2)
         return_main_menu
