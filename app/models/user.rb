@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
             self.candies += 1
             self.save
         else
-            puts "Invalid Pokemon ID."
+            puts "Invalid Pokémon ID."
         end
     end
 
@@ -86,9 +86,9 @@ class User < ActiveRecord::Base
         pokemonName = Pokemon.find_name_by_id(poke_id)
         if Pokemon.find_by(id:poke_id).user_id == self.id && Pokemon.find_by(id:poke_id) # -----------------solution did not work, I also added to check if the pokemon it's from the user
             if !self.all_my_pokemon.find { |poke| poke[:id] == poke_id }
-                puts "Oh oh, it doesn't seem you have this pokemon."
+                puts "Oh oh, it doesn't seem you have this Pokémon."
             elsif !Pokemon.find(poke_id).do_i_have_another_evolution
-                puts "Sorry, this pokemon has reached its maximum evolutions!"
+                puts "Sorry, this Pokémon has reached its maximum evolutions!"
             elsif self.which_pokemons_can_i_evolve.find { |poke| poke[:id] == poke_id }
                 puts "You have enough candies to evolve your #{Pokemon.find_name_by_id(poke_id)}"
                 true
@@ -96,7 +96,7 @@ class User < ActiveRecord::Base
                 puts "Sorry you don't have enough candies to evolve #{Pokemon.find_name_by_id(poke_id)}"
             end
         else
-            puts "Invalid Pokemon ID."
+            puts "Invalid Pokémon ID."
         end
     end
 
@@ -112,12 +112,12 @@ class User < ActiveRecord::Base
                 pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_2
                 pokemonToEvolve.save
                 self.candies -= pokemonToEvolve.my_candies_to_evolve
-                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+                puts "Evolved Pokémon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
             elsif evolutionNumber == 2
                 pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_3
                 pokemonToEvolve.save
                 self.candies -= pokemonToEvolve.my_candies_to_evolve
-                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+                puts "Evolved Pokémon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
             elsif evolutionNumber == 3 
                 puts "Sorry, maximum evolutions achieved!!"
             end
@@ -135,12 +135,12 @@ class User < ActiveRecord::Base
                 pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_2
                 pokemonToEvolve.save
                 self.candies -= pokemonToEvolve.my_candies_to_evolve
-                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+                puts "Evolved Pokémon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
             elsif evolutionNumber == 2
                 pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_3
                 pokemonToEvolve.save
                 self.candies -= pokemonToEvolve.my_candies_to_evolve
-                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+                puts "Evolved Pokémon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
             elsif evolutionNumber == 3 
                 puts "Sorry, maximum evolutions achieved!!"
             end
