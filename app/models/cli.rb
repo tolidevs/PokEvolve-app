@@ -41,7 +41,7 @@ class CLI
 
     # abstract out check username valid
     def check_username
-        @response = $prompt.ask("Please enter a username => ").capitalize
+        @response = $prompt.ask("Please enter a username => ", required: true).capitalize
         User.find_by(username: @response)
     end
 
@@ -101,7 +101,7 @@ class CLI
     def set_up_account
         puts "Setting up account:"
         @current_user = User.new(username:@response)
-        candy_set = $prompt.ask("How many candies do you have?") do |q|
+        candy_set = $prompt.ask("How many candies do you have?", required: true) do |q|
                 q.validate(/^-?[0-9]+$/, "Invalid input, please type a number")
             end
         @current_user.candies = candy_set
@@ -116,7 +116,7 @@ class CLI
     end
 
     def import_existing_pokemon
-        poke_name = $prompt.ask("Please input Pokémon name => ").capitalize
+        poke_name = $prompt.ask("Please input Pokémon name => ", required: true).capitalize
         if PokemonFamily.find_pokemon_family_by_name(poke_name)
             @current_user.import_pokemon(poke_name)
             puts "#{poke_name} added to your list!"
@@ -164,17 +164,22 @@ class CLI
     end
 
     def catch_pokemon_name
-        poke_name = $prompt.ask("Please enter Pokémon name => ").capitalize
+        poke_name = $prompt.ask("Please enter Pokémon name => ", required: true).capitalize
         if PokemonFamily.find_pokemon_family_by_name(poke_name)
             @current_user.catch_pokemon(poke_name)
             puts "Nice, you caught a #{poke_name}!"
             puts "You now have #{@current_user.candies} candies."
+            sleep(0.5)
+            return_main_menu
         else
-            puts "Try again!"
-            catch_pokemon_name
+            choice = $prompt.select("Would you like to try again?", ["Yes please", "Not right now, take me back to the main menu"])
+            if choice == "Yes please"
+                catch_pokemon_name
+            else
+            sleep(0.5)
+            return_main_menu
+            end
         end
-        sleep(0.5)
-        return_main_menu
     end
 
 
