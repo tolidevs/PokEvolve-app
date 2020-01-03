@@ -108,8 +108,7 @@ class CLI
 
     def main_menu
         choice = $prompt.select("What would you like to do?", ["1: Catch Pokémon", "2: See all of my Pokémon", 
-            "3: See how many candies I have", "4: See which Pokémon I can evolve", "5: Can I evolve this Pokémon?", 
-            "6: Evolve a Pokémon", "7: Send a Pokémon to the Professor", "8: Exit"])
+            "3: See how many candies I have", "4: See which Pokémon I can evolve", "5: Send a Pokémon to the Professor", "8: Exit"])
         if choice == "1: Catch Pokémon"
             catch_pokemon_name
         elsif choice == "2: See all of my Pokémon"
@@ -118,13 +117,13 @@ class CLI
              p "You have #{@@current_user.see_my_candies} candies."
              sleep(1)
              return_main_menu
-        elsif choice == "4: See which Pokémon I can evolve"
+        elsif choice == "4: See which Pokémon I can evolve" #####thi one we are going to keep
             see_wich_pokemon_can_i_evolve
-        elsif choice == "5: Can I evolve this Pokémon?" ####### The one I have changed
-            can_i_evolve_pokemon_by_name
-        elsif choice == "6: Evolve a Pokémon"
-            evolve_pokemon_with_id
-        elsif choice == "7: Send a Pokémon to the Professor"
+        # elsif choice == "5: Can I evolve this Pokémon?" ####### The one I have changed
+        #     can_i_evolve_pokemon_by_name
+        # elsif choice == "6: Evolve a Pokémon"
+        #     evolve_pokemon_with_id
+        elsif choice == "5: Send a Pokémon to the Professor"
             send_pokemon_to_professor
         else
             exit
@@ -153,27 +152,6 @@ class CLI
         return_main_menu
     end
 
- 
-    # def can_i_evolve_pokemon_id
-    #     pokemon_id = $prompt.ask("Please enter Pokémon id => ").to_i
-    #     if @@current_user.can_i_evolve_this_pokemon_true(pokemon_id)
-    #         puts "You have enough candies to evolve your #{Pokemon.find(pokemon_id).pokemon_name}."
-    #         choice = $prompt.select("Would you like to evolve this Pokémon now?", ["Hell yeah!", "Not right now"])
-    #             if choice == "Hell yeah!"
-    #                 @@current_user.evolve_and_change_name(pokemon_id)
-    #                 puts "You still have #{@@current_user.candies} candies left!"
-    #                 sleep(1)
-    #                 return_main_menu
-    #             else
-    #                 sleep(0.2)
-    #                 return_main_menu
-    #             end
-    #     else
-    #         @@current_user.can_i_evolve_this_pokemon(pokemon_id)
-    #         sleep(1)
-    #         return_main_menu
-    #     end
-    # end
 
     def can_i_evolve_pokemon_by_name ####### it's working
         pokemon_array = @@current_user.array_which_pokemons_can_i_evolve
@@ -208,18 +186,17 @@ class CLI
 
     def see_wich_pokemon_can_i_evolve
         puts "-----You currently have #{@@current_user.candies} candies-----"
-        @@current_user.array_which_pokemons_can_i_evolve.each { |poke| puts "#{poke}"} #had to delete the candies to evolve
-        choice = $prompt.select("Would you like to evolve a Pokémon now?", ["Yeah, let's evolve!", "Not right now"])
-        binding.pry 
-        0
-        if choice == "Yeah, let's evolve!"
-            can_i_evolve_pokemon_by_name
-        elsif choice == "Not right now"
-            sleep(0.2)
-            return_main_menu
-        elsif chice == nil
-            puts "hey youuuuuuu"
+        if !@@current_user.array_which_pokemons_can_i_evolve.empty?
+            @@current_user.array_which_pokemons_can_i_evolve.each { |poke| puts "#{poke}"} #had to delete the candies to evolve
+            choice = $prompt.select("Would you like to evolve a Pokémon now?", ["Yeah, let's evolve!", "Not right now"])
+                if choice == "Yeah, let's evolve!"
+                    can_i_evolve_pokemon_by_name
+                end
+        else
+            puts "Oh no, it seems you don't have any Poémon to evolve, try catching them."
         end
+        sleep(0.2)
+        return_main_menu
     end
 
     def send_pokemon_to_professor
