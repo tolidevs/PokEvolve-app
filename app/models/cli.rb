@@ -35,7 +35,7 @@ class CLI
         elsif choice == "Create Account"
             check_username_available
         else
-            exit
+            exit_app
         end
     end
 
@@ -75,7 +75,7 @@ class CLI
                 sleep(0.1)
                 login
             else
-                exit
+                exit_app
             end
         else
             set_up_account
@@ -89,12 +89,12 @@ class CLI
                 q.validate(/^-?[0-9]+$/, "Invalid input, please type a number")
             end
         @current_user.candies = candy_set
+        @current_user.save
         puts "Welcome #{@response}, you have created an account with #{candy_set} candies."
         import_choice = $prompt.select("Do you have any existing Pokémon to import?", ["Yes","No"])
         if import_choice == "Yes"
             import_existing_pokemon
         end
-        @current_user.save
         sleep(0.1)
         main_menu
     end
@@ -136,7 +136,7 @@ class CLI
         elsif choice == "5: Send a Pokémon to the Professor"
             send_pokemon_to_professor
         else
-            exit
+            exit_app
         end
     end
 
@@ -145,7 +145,7 @@ class CLI
         if choice == "Return to main menu"
             main_menu
         else
-            exit
+            exit_app
         end
     end
 
@@ -231,7 +231,7 @@ class CLI
     end
 
 
-    def exit
+    def exit_app
         puts "Goodbye, thanks for using"
         sleep(0.2)
         puts"
