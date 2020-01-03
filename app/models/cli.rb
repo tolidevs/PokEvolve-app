@@ -1,6 +1,15 @@
 require 'tty-prompt'
 class CLI 
 
+    def array_all_pokemon_i_can_evolve
+        @@current_user.array_which_pokemons_can_i_evolve
+    end
+
+    def array_all_my_pokemon
+        arr = Array.new
+        @@current_user.see_all_my_pokemon_with_id.each {|e| arr.push(e[:name])}
+        arr
+    end
 
     def opening_credits
         puts "
@@ -111,8 +120,8 @@ class CLI
              return_main_menu
         elsif choice == "4: See which Pokémon I can evolve"
             see_wich_pokemon_can_i_evolve
-        elsif choice == "5: Can I evolve this Pokémon?"
-             can_i_evolve_pokemon_id
+        elsif choice == "5: Can I evolve this Pokémon?" ####### The one I have changed
+            can_i_evolve_pokemon_by_name
         elsif choice == "6: Evolve a Pokémon"
             evolve_pokemon_with_id
         elsif choice == "7: Send a Pokémon to the Professor"
@@ -145,25 +154,38 @@ class CLI
     end
 
  
-    def can_i_evolve_pokemon_id
-        pokemon_id = $prompt.ask("Please enter Pokémon id => ").to_i
-        if @@current_user.can_i_evolve_this_pokemon_true(pokemon_id)
-            puts "You have enough candies to evolve your #{Pokemon.find(pokemon_id).pokemon_name}."
+    # def can_i_evolve_pokemon_id
+    #     pokemon_id = $prompt.ask("Please enter Pokémon id => ").to_i
+    #     if @@current_user.can_i_evolve_this_pokemon_true(pokemon_id)
+    #         puts "You have enough candies to evolve your #{Pokemon.find(pokemon_id).pokemon_name}."
+    #         choice = $prompt.select("Would you like to evolve this Pokémon now?", ["Hell yeah!", "Not right now"])
+    #             if choice == "Hell yeah!"
+    #                 @@current_user.evolve_and_change_name(pokemon_id)
+    #                 puts "You still have #{@@current_user.candies} candies left!"
+    #                 sleep(1)
+    #                 return_main_menu
+    #             else
+    #                 sleep(0.2)
+    #                 return_main_menu
+    #             end
+    #     else
+    #         @@current_user.can_i_evolve_this_pokemon(pokemon_id)
+    #         sleep(1)
+    #         return_main_menu
+    #     end
+    # end
+
+    def can_i_evolve_pokemon_by_name ####### it's working
+        pokemon_array = @@current_user.array_which_pokemons_can_i_evolve
+        poke_evol = $prompt.select("Which Pokémon would you like to evolve now??", Array[pokemon_array])
+        puts "You have enough candies to evolve your #{poke_evol}."
             choice = $prompt.select("Would you like to evolve this Pokémon now?", ["Hell yeah!", "Not right now"])
                 if choice == "Hell yeah!"
-                    @@current_user.evolve_and_change_name(pokemon_id)
+                    @@current_user.evolve_and_change_name_by_name(poke_evol)
                     puts "You still have #{@@current_user.candies} candies left!"
-                    sleep(1)
-                    return_main_menu
-                else
-                    sleep(0.2)
-                    return_main_menu
-                end
-        else
-            @@current_user.can_i_evolve_this_pokemon(pokemon_id)
-            sleep(1)
-            return_main_menu
-        end
+                end    
+        sleep(0.2)
+        return_main_menu
     end
 
     def evolve_pokemon_with_id
@@ -186,23 +208,19 @@ class CLI
 
     def see_wich_pokemon_can_i_evolve
         puts "-----You currently have #{@@current_user.candies} candies-----"
-        @@current_user.which_pokemons_can_i_evolve.each { |poke| puts "ID: #{poke[:id]} - #{poke[:name]} - Candies: #{poke[:candies_to_evolve]}"}
+        @@current_user.array_which_pokemons_can_i_evolve.each { |poke| puts "#{poke}"} #had to delete the candies to evolve
         choice = $prompt.select("Would you like to evolve a Pokémon now?", ["Yeah, let's evolve!", "Not right now"])
+        binding.pry 
+        0
         if choice == "Yeah, let's evolve!"
-            evolve_pokemon_with_id
-        else
+            can_i_evolve_pokemon_by_name
+        elsif choice == "Not right now"
             sleep(0.2)
             return_main_menu
+        elsif chice == nil
+            puts "hey youuuuuuu"
         end
     end
-
-
-    def array_all_my_pokemon
-        arr = Array.new
-        @@current_user.all_my_pokemon.each {|e| arr.push(e.pokemon_name)}
-        arr
-    end
-    
 
     def send_pokemon_to_professor
         send_away = $prompt.select("Who would you like to send to the professor?", Array[array_all_my_pokemon])

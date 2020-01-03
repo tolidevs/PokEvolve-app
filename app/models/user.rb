@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 
 ################-------------------alteration here
     def delete_pokemon_by_id(id)
-        if Pokemon.find_by(id:id) && Pokemon.find_by(id:id).user_id == self.id #because now Pokemon is nil
+        if  Pokemon.find_by(id:id).user_id == self.id 
             puts "#{Pokemon.find_name_by_id(id)} (ID:#{Pokemon.find(id).id}) sent to the professor!!"
             Pokemon.delete(id)
             self.candies += 1
@@ -50,15 +50,11 @@ class User < ActiveRecord::Base
     end
 
     def delete_pokemon_by_name(name)
-        poke = Pokemon.find_by(pokemon_name:name)
-        if Pokemon.find(poke.id).user_id == self.id
-            puts "#{name} sent to the professor!!"
-            Pokemon.delete(poke.id)
-            self.candies += 1
-            self.save
-        else
-            puts "Invalid Pokemon ID."
-        end
+        poke = all_my_pokemon.find_by!(pokemon_name:name)
+        puts "#{name} sent to the professor!!"
+        Pokemon.delete(poke.id)
+        self.candies += 1
+        self.save
     end
 
     def which_pokemons_can_i_evolve
@@ -72,6 +68,16 @@ class User < ActiveRecord::Base
             myEvolvePokemon[:name] = poke.pokemon_name
             myEvolvePokemon[:candies_to_evolve] = poke.my_candies_to_evolve 
             pokemon_array.push(myEvolvePokemon)
+        }
+        pokemon_array
+    end
+
+    def array_which_pokemons_can_i_evolve
+        can_be_evolved = self.all_my_pokemon.select { |poke|
+            poke.my_candies_to_evolve <= self.see_my_candies && poke.do_i_have_another_evolution
+        }
+        pokemon_array = can_be_evolved.map { |poke| 
+            poke.pokemon_name
         }
         pokemon_array
     end
@@ -100,6 +106,29 @@ class User < ActiveRecord::Base
 
     def evolve_and_change_name(poke_id)
         pokemonToEvolve = Pokemon.find(poke_id)
+        if self.can_i_evolve_this_pokemon_true(poke_id)
+            evolutionNumber = PokemonFamily.find_evolution_level_by_name(pokemonToEvolve.pokemon_name)
+            if evolutionNumber == 1
+                pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_2
+                pokemonToEvolve.save
+                self.candies -= pokemonToEvolve.my_candies_to_evolve
+                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+            elsif evolutionNumber == 2
+                pokemonToEvolve.pokemon_name = pokemonToEvolve.pokemon_family.evolution_3
+                pokemonToEvolve.save
+                self.candies -= pokemonToEvolve.my_candies_to_evolve
+                puts "Evolved pokemon id: #{poke_id}! Now it's a #{pokemonToEvolve.pokemon_name}!"
+            elsif evolutionNumber == 3 
+                puts "Sorry, maximum evolutions achieved!!"
+            end
+            self.save
+        end
+                
+    end
+
+    def evolve_and_change_name_by_name(name)
+        pokemonToEvolve = all_my_pokemon.find_by!(pokemon_name:name)
+        poke_id = pokemonToEvolve.id
         if self.can_i_evolve_this_pokemon_true(poke_id)
             evolutionNumber = PokemonFamily.find_evolution_level_by_name(pokemonToEvolve.pokemon_name)
             if evolutionNumber == 1
