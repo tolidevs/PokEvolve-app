@@ -64,6 +64,22 @@ class CLI
         end
     end
 
+    def logout_app
+        option = $prompt.select("Are you sure you want to logout?",["Yes, see you later, Feraligatr","Not right now"])
+        sleep(0.9)
+        if option == "Yes, see you later, Feraligatr"
+            ASCII.totodile
+            puts " ---------------------------------------------------------------------------------------------"
+            puts "|                                     In a while Totodile                                     |"
+            puts " ---------------------------------------------------------------------------------------------"
+            sleep(1.5)
+        else
+            main_menu
+        end
+        opening_credits
+        greet_user
+    end
+
     def check_username_available
         @user = check_username
         if @user
@@ -118,7 +134,7 @@ class CLI
 
     def main_menu
         choice = $prompt.select("What would you like to do?", ["1: Catch Pokémon", "2: See all of my Pokémon", 
-            "3: See how many candies I have", "4: See which Pokémon I can evolve", "5: Send a Pokémon to the Professor", "8: Exit"])
+            "3: See how many candies I have", "4: See which Pokémon I can evolve", "5: Send a Pokémon to the Professor", "6: Logout", "7: Exit"])
         if choice == "1: Catch Pokémon"
             catch_pokemon_name
         elsif choice == "2: See all of my Pokémon"
@@ -129,12 +145,10 @@ class CLI
              return_main_menu
         elsif choice == "4: See which Pokémon I can evolve" #####thi one we are going to keep
             see_wich_pokemon_can_i_evolve
-        # elsif choice == "5: Can I evolve this Pokémon?" ####### The one I have changed
-        #     can_i_evolve_pokemon_by_name
-        # elsif choice == "6: Evolve a Pokémon"
-        #     evolve_pokemon_with_id
         elsif choice == "5: Send a Pokémon to the Professor"
             send_pokemon_to_professor
+        elsif choice == "6: Logout"
+            logout_app
         else
             exit_app
         end
@@ -239,5 +253,9 @@ class CLI
 █▀▀ █▄█ █░█ ██▄ ▀▄▀ █▄█ █▄▄ ▀▄▀ ██▄"
         sleep(1)
     end
+
+    
+    
+
 # write methods above here
 end

@@ -151,6 +151,8 @@ class User < ActiveRecord::Base
 
     
 
+    
+
 
 
 # write methods above here
